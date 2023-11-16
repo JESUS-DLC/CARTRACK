@@ -1,5 +1,6 @@
 package dev.jesusdlc.cartrack.presentation.advice;
 
+import dev.jesusdlc.cartrack.business.exception.ExistsException;
 import dev.jesusdlc.cartrack.business.exception.NotFoundException;
 import dev.jesusdlc.cartrack.domain.util.ErrorMessage;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,6 +30,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     ResponseEntity<ErrorMessage> notFoundException(NotFoundException exception){
         ErrorMessage errorMessage = new ErrorMessage(exception.getMessage(), HttpStatus.NOT_FOUND, LocalDateTime.now().format(formater));
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
+
+    @ExceptionHandler(ExistsException.class)
+    ResponseEntity<ErrorMessage> existsException(ExistsException exception){
+        ErrorMessage errorMessage = new ErrorMessage(exception.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now().format(formater));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
     @Override

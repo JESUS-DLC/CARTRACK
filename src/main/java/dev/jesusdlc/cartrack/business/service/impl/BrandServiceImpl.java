@@ -1,5 +1,6 @@
 package dev.jesusdlc.cartrack.business.service.impl;
 
+import dev.jesusdlc.cartrack.business.exception.ExistsException;
 import dev.jesusdlc.cartrack.business.exception.NotFoundException;
 import dev.jesusdlc.cartrack.business.mapper.BrandMapper;
 import dev.jesusdlc.cartrack.business.service.BrandService;
@@ -34,12 +35,14 @@ public class BrandServiceImpl implements BrandService {
         Page<Brand>  brandsPageable = brandRepository.findAll(pageable);
         List<Brand> brands = brandsPageable.getContent();
         List<BrandResponseDto> brandResponse = brandMapper.toBrandResponseDto(brands);
+
         BrandPageableResponse brandPageableResponse = new BrandPageableResponse();
         brandPageableResponse.setBrands(brandResponse);
         brandPageableResponse.setTotalBrands(brandsPageable.getTotalElements());
         brandPageableResponse.setNumberPage(brandsPageable.getNumber());
         brandPageableResponse.setSizePage(brandsPageable.getSize());
         brandPageableResponse.setTotalPages(brandsPageable.getTotalPages());
+
         return brandPageableResponse;
     }
 
@@ -52,6 +55,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandResponseDto save(BrandRequestDto brandRequestDto) {
+        if(brandRepository.existsByName(brandRequestDto.getName())) throw new ExistsException();
         Brand brand = brandMapper.toBrand(brandRequestDto);
         brand = brandRepository.save(brand);
         BrandResponseDto brandResponse = brandMapper.toBrandResponseDto(brand);
@@ -60,7 +64,9 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandResponseDto update(BrandRequestUpdateDto brandRequestUpdateDto) {
-        if(brandRepository.findById(brandRequestUpdateDto.getId()).isEmpty())throw new NotFoundException();
+        if(!brandRepository.existsById(brandRequestUpdateDto.getId()))throw new NotFoundException();
+        if(brandRepository.existsByName(brandRequestUpdateDto.getName())) throw new ExistsException();
+
         Brand brand = brandMapper.toBrandUpdate(brandRequestUpdateDto);
         brand = brandRepository.save(brand);
         BrandResponseDto brandResponse = brandMapper.toBrandResponseDto(brand);
@@ -69,7 +75,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public boolean delete(long id) {
-        if(brandRepository.findById(id).isEmpty())throw new NotFoundException();
+        if(!brandRepository.existsById(id))throw new NotFoundException();
         brandRepository.deleteById(id);
         return true;
     }

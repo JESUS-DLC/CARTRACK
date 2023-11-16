@@ -23,7 +23,6 @@ import java.util.List;
 public class BrandController {
 
     private final BrandService brandService;
-    private final BrandRepository brandRepository;
 
     @GetMapping("/{id}")
     ResponseEntity<BrandResponseDto> findById(@PathVariable("id") long id){
