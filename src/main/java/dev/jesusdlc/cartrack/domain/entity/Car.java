@@ -17,11 +17,12 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne(targetEntity = Brand.class)
     @JoinColumn(name = "brand_id")
     private Brand brand;
+    @Column(nullable = false)
     private String model;
-    private String year;
+    @Column(nullable = false)
+    private Integer year;
 
 }

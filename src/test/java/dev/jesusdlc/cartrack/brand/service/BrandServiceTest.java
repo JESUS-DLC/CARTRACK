@@ -3,17 +3,17 @@ package dev.jesusdlc.cartrack.brand.service;
 import dev.jesusdlc.cartrack.business.exception.ExistsException;
 import dev.jesusdlc.cartrack.business.exception.NotFoundException;
 import dev.jesusdlc.cartrack.business.mapper.BrandMapper;
+import dev.jesusdlc.cartrack.business.mapper.BrandMapperImpl;
 import dev.jesusdlc.cartrack.business.service.impl.BrandServiceImpl;
 import dev.jesusdlc.cartrack.domain.dto.request.create.BrandRequestDto;
 import dev.jesusdlc.cartrack.domain.dto.request.update.BrandRequestUpdateDto;
-import dev.jesusdlc.cartrack.domain.dto.response.BrandPageableResponse;
 import dev.jesusdlc.cartrack.domain.dto.response.BrandResponseDto;
+import dev.jesusdlc.cartrack.domain.dto.response.PageableResponse;
 import dev.jesusdlc.cartrack.domain.entity.Brand;
 import dev.jesusdlc.cartrack.persistence.repository.BrandRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
@@ -38,7 +38,7 @@ public class BrandServiceTest {
     @Mock
     private BrandRepository brandRepository;
     @Spy
-    private BrandMapper brandMapper = Mappers.getMapper(BrandMapper.class);
+    private BrandMapper brandMapper = new BrandMapperImpl();
     @InjectMocks
     private BrandServiceImpl brandService;
     private Brand brand;
@@ -93,7 +93,7 @@ public class BrandServiceTest {
         Pageable pageable = PageRequest.of(0,3);
         given(brandRepository.findAll(pageable)).willReturn(new PageImpl<>(brands));
 
-        BrandPageableResponse pageableResponse = brandService.findAllPageable(pageable);
+        PageableResponse<BrandResponseDto> pageableResponse = brandService.findAllPageable(pageable);
 
         assertEquals(pageableResponse.getTotalBrands(),brands.size());
     }

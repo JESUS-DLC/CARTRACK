@@ -3,10 +3,8 @@ package dev.jesusdlc.cartrack.presentation.controller;
 import dev.jesusdlc.cartrack.business.service.BrandService;
 import dev.jesusdlc.cartrack.domain.dto.request.create.BrandRequestDto;
 import dev.jesusdlc.cartrack.domain.dto.request.update.BrandRequestUpdateDto;
-import dev.jesusdlc.cartrack.domain.dto.response.BrandPageableResponse;
 import dev.jesusdlc.cartrack.domain.dto.response.BrandResponseDto;
-import dev.jesusdlc.cartrack.domain.entity.Brand;
-import dev.jesusdlc.cartrack.persistence.repository.BrandRepository;
+import dev.jesusdlc.cartrack.domain.dto.response.PageableResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +32,7 @@ public class BrandController {
     }
 
     @GetMapping()
-    ResponseEntity<BrandPageableResponse> findAllPaged(@PageableDefault(page = 0,size = 10) Pageable pageable){
+    ResponseEntity<PageableResponse<BrandResponseDto>> findAllPaged(@PageableDefault(page = 0,size = 10) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(brandService.findAllPageable(pageable));
     }
 

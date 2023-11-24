@@ -1,7 +1,9 @@
 package dev.jesusdlc.cartrack.business.exception;
 
 public class ExistsException extends RuntimeException{
-    public ExistsException() {
-        super("el recurso ya existe");
+
+    public ExistsException(String resoruce) {
+        super("el recurso "+resoruce+" ya existe");
     }
+
 }

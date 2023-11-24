@@ -6,8 +6,8 @@ import dev.jesusdlc.cartrack.business.mapper.BrandMapper;
 import dev.jesusdlc.cartrack.business.service.BrandService;
 import dev.jesusdlc.cartrack.domain.dto.request.create.BrandRequestDto;
 import dev.jesusdlc.cartrack.domain.dto.request.update.BrandRequestUpdateDto;
-import dev.jesusdlc.cartrack.domain.dto.response.BrandPageableResponse;
 import dev.jesusdlc.cartrack.domain.dto.response.BrandResponseDto;
+import dev.jesusdlc.cartrack.domain.dto.response.PageableResponse;
 import dev.jesusdlc.cartrack.domain.entity.Brand;
 import dev.jesusdlc.cartrack.persistence.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,13 +31,13 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandPageableResponse findAllPageable(Pageable pageable){
+    public PageableResponse<BrandResponseDto> findAllPageable(Pageable pageable){
         Page<Brand>  brandsPageable = brandRepository.findAll(pageable);
         List<Brand> brands = brandsPageable.getContent();
         List<BrandResponseDto> brandResponse = brandMapper.toBrandResponseDto(brands);
 
-        BrandPageableResponse brandPageableResponse = new BrandPageableResponse();
-        brandPageableResponse.setBrands(brandResponse);
+        PageableResponse<BrandResponseDto> brandPageableResponse = new PageableResponse<>();
+        brandPageableResponse.setContent(brandResponse);
         brandPageableResponse.setTotalBrands(brandsPageable.getTotalElements());
         brandPageableResponse.setNumberPage(brandsPageable.getNumber());
         brandPageableResponse.setSizePage(brandsPageable.getSize());
@@ -48,14 +48,20 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandResponseDto findById(long id) {
-        Brand brand = brandRepository.findById(id).orElseThrow(NotFoundException::new);
+        Brand brand = brandRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
         BrandResponseDto brandResponse = brandMapper.toBrandResponseDto(brand);
         return brandResponse;
     }
 
     @Override
+    public Brand findBrand(long id) {
+        Brand brand = brandRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return brand;
+    }
+
+    @Override
     public BrandResponseDto save(BrandRequestDto brandRequestDto) {
-        if(brandRepository.existsByName(brandRequestDto.getName())) throw new ExistsException();
+        if(brandRepository.existsByName(brandRequestDto.getName())) throw new ExistsException(brandRequestDto.getName());
         Brand brand = brandMapper.toBrand(brandRequestDto);
         brand = brandRepository.save(brand);
         BrandResponseDto brandResponse = brandMapper.toBrandResponseDto(brand);
@@ -64,8 +70,8 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandResponseDto update(BrandRequestUpdateDto brandRequestUpdateDto) {
-        if(!brandRepository.existsById(brandRequestUpdateDto.getId()))throw new NotFoundException();
-        if(brandRepository.existsByName(brandRequestUpdateDto.getName())) throw new ExistsException();
+        if(!brandRepository.existsById(brandRequestUpdateDto.getId()))throw new NotFoundException(brandRequestUpdateDto.getId());
+        if(brandRepository.existsByName(brandRequestUpdateDto.getName())) throw new ExistsException(brandRequestUpdateDto.getName());
 
         Brand brand = brandMapper.toBrandUpdate(brandRequestUpdateDto);
         brand = brandRepository.save(brand);
@@ -75,7 +81,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public boolean delete(long id) {
-        if(!brandRepository.existsById(id))throw new NotFoundException();
+        if(!brandRepository.existsById(id))throw new NotFoundException(id);
         brandRepository.deleteById(id);
         return true;
     }

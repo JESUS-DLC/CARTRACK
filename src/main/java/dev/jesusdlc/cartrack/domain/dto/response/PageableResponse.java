@@ -10,8 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
-public class BrandPageableResponse {
-    private List<BrandResponseDto> brands;
+public class PageableResponse<T> {
+    private List<T> content;
     private Integer numberPage;
     private Long totalBrands;
     private Integer sizePage;

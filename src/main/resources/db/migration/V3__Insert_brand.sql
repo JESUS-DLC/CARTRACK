@@ -1,0 +1,10 @@
+insert into brands (id,name) values (1,'Toyota');
+insert into brands (id,name) values (2,'Dodge');
+insert into brands (id,name) values (3,'Nissan');
+insert into brands (id,name) values (4,'Volvo');
+insert into brands (id,name) values (5,'Ferrari');
+insert into brands (id,name) values (6,'Mazda');
+insert into brands (id,name) values (7,'Ford');
+insert into brands (id,name) values (8,'Chevrolet');
+insert into brands (id,name) values (9,'Mercedes-Benz');
+insert into brands (id,name) values (10,'Volkswagen');

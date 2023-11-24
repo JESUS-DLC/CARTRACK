@@ -1,11 +1,13 @@
 package dev.jesusdlc.cartrack.brand.repository;
 
+import dev.jesusdlc.cartrack.AbstractTestContainers;
 import dev.jesusdlc.cartrack.domain.entity.Brand;
 import dev.jesusdlc.cartrack.persistence.repository.BrandRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +19,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-class BrandRepositoryTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class BrandRepositoryTest extends AbstractTestContainers {
 
     @Autowired
     private BrandRepository brandRepository;
