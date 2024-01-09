@@ -33,8 +33,8 @@ public class BrandMapperTest {
         Brand brand = brandMapper.toBrandUpdate(brandRequest);
 
         assertAll(()->{
-            assertEquals(brand.getId(),brandRequest.getId());
-            assertEquals(brand.getName(),brandRequest.getName());
+            assertEquals(brandRequest.getId(),brand.getId());
+            assertEquals(brandRequest.getName(),brand.getName());
         });
     }
 

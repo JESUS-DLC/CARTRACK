@@ -47,22 +47,23 @@ public class CarServiceImpl implements CarService {
     @Override
     public PageableResponse<CarResponseDto> findAllPageable(Pageable pageable, Long brandId, Long year) {
         SearchCarSpecification specification = new SearchCarSpecification(brandId,year);
-        Page<Car> page = carRepository.findAll(specification,pageable);
-        List<CarResponseDto> cars = carMapper.toCarResponseDto(page.getContent());
 
+        Page<Car> page = carRepository.findAll(specification,pageable);
+
+        List<CarResponseDto> cars = carMapper.toCarResponseDto(page.getContent());
         PageableResponse<CarResponseDto> carPageable = new PageableResponse<>();
         carPageable.setContent(cars);
         carPageable.setNumberPage(page.getNumber());
         carPageable.setSizePage(page.getSize());
         carPageable.setTotalPages(page.getTotalPages());
         carPageable.setTotalBrands(page.getTotalElements());
+
         return carPageable;
     }
 
     @Override
     public CarResponseDto save(CarRequestDto carRequestDto, Brand brand) {
         Car car = carMapper.toCar(carRequestDto);
-        System.out.println(car.getId());
         car.setBrand(brand);
         Car carSaved = carRepository.save(car);
         CarResponseDto carResponse = carMapper.toCarResponseDto(carSaved);

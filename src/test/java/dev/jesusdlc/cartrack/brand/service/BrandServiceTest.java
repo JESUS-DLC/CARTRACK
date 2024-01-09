@@ -81,7 +81,7 @@ public class BrandServiceTest {
         given(brandRepository.findAll()).willReturn(brands);
 
         List<BrandResponseDto> brandsResponseDto = brandService.findAll();
-        assertEquals(brandsResponseDto.size(),brands.size());
+        assertEquals(brands.size(),brandsResponseDto.size());
     }
 
     @Test
@@ -95,7 +95,7 @@ public class BrandServiceTest {
 
         PageableResponse<BrandResponseDto> pageableResponse = brandService.findAllPageable(pageable);
 
-        assertEquals(pageableResponse.getTotalBrands(),brands.size());
+        assertEquals(brands.size(),pageableResponse.getTotalBrands());
     }
 
     @Test
@@ -103,7 +103,7 @@ public class BrandServiceTest {
         long id = 1L;
         given(brandRepository.findById(id)).willReturn(Optional.of(brand));
         BrandResponseDto brandResponseDto = brandService.findById(id);
-        assertEquals(brandResponseDto.getId(),id);
+        assertEquals(id,brandResponseDto.getId());
     }
 
     @Test

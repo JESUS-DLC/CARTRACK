@@ -57,7 +57,7 @@ public class BrandRepositoryTest extends AbstractTestContainers {
         brandRepository.save(brand);
         brandRepository.save(secondBrand);
         List<Brand> brands = brandRepository.findAll();
-        assertEquals(brands.size(),2);
+        assertEquals(2,brands.size());
     }
 
     @DisplayName("verify if pagination works")
@@ -69,7 +69,7 @@ public class BrandRepositoryTest extends AbstractTestContainers {
         Pageable pageable = PageRequest.of(0,2);
         Page<Brand> brands = brandRepository.findAll(pageable);
 
-        assertEquals(brands.getContent().size(),2);
+        assertEquals(2,brands.getContent().size());
     }
 
 

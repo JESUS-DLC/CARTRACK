@@ -14,3 +14,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         show_sql: true
         format_sql: true
+
+
+security:
+  jwt:
+    time: 720
+    key: bGFmaXJtYXBhZHJpbm9zZWd1cmlkYWRzcHJpbmcyMDIz

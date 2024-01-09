@@ -17,7 +17,8 @@ public class AbstractTestContainers {
                 postgreSQLContainer.getJdbcUrl(),
                 postgreSQLContainer.getUsername(),
                 postgreSQLContainer.getPassword()
-        ).load();
+        )
+                .load();
         flyway.migrate();
     }
 
