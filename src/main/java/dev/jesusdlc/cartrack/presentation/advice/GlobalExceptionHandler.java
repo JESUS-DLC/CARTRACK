@@ -1,10 +1,10 @@
 package dev.jesusdlc.cartrack.presentation.advice;
 
-import dev.jesusdlc.cartrack.business.exception.EmailException;
-import dev.jesusdlc.cartrack.business.exception.ExistsException;
-import dev.jesusdlc.cartrack.business.exception.InvalidPasswordException;
-import dev.jesusdlc.cartrack.business.exception.NotFoundException;
+import dev.jesusdlc.cartrack.business.exception.*;
 import dev.jesusdlc.cartrack.domain.util.ErrorMessage;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -52,8 +52,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
-
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         Map<String,String> errors = new HashMap<>();
@@ -67,7 +65,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     ResponseEntity<ErrorMessage> dataIntegrityViolationException(DataIntegrityViolationException exception){
-        ErrorMessage errorMessage = new ErrorMessage("error en los datos enviados",HttpStatus.BAD_REQUEST,LocalDateTime.now().format(formatter));
+        ErrorMessage errorMessage = new ErrorMessage("error in the data",HttpStatus.BAD_REQUEST,LocalDateTime.now().format(formatter));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 }

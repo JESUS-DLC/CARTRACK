@@ -25,12 +25,14 @@ public interface CarMapper {
     @Mapping(target = "model",source = "model")
     @Mapping(target = "year",source = "year")
     @Mapping(target = "brand",ignore = true)
+    @Mapping(target = "user", ignore = true)
     Car toCar(CarRequestDto carRequestDto);
 
     @Mapping(target = "id",source = "id")
     @Mapping(target = "model",source = "model")
     @Mapping(target = "year",source = "year")
     @Mapping(target = "brand",ignore = true)
+    @Mapping(target = "user",ignore = true)
     Car toCarByUpdate(CarRequestUpdateDto carRequestUpdateDto);
 
     List<CarResponseDto> toCarResponseDto(List<Car> cars);

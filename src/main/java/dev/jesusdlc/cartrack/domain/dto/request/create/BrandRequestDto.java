@@ -11,6 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BrandRequestDto {
-    @NotEmpty(message = "la marca debe tener un nombre")
+    @NotEmpty(message = "name is required")
     private String name;
 }

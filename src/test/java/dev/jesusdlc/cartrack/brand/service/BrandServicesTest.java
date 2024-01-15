@@ -33,7 +33,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 
 @ExtendWith(MockitoExtension.class)
-public class BrandServiceTest {
+public class BrandServicesTest {
 
     @Mock
     private BrandRepository brandRepository;

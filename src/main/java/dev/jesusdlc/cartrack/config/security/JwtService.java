@@ -1,16 +1,17 @@
 package dev.jesusdlc.cartrack.config.security;
 
+import dev.jesusdlc.cartrack.business.exception.JwtVerificationException;
 import dev.jesusdlc.cartrack.domain.entity.Usuario;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class JwtService {
                 .header()
                 .type("JWT")
                 .and()
-                .subject(user.getEmail())
+                .subject(user.getUsername())
                 .issuedAt(issuedAt)
                 .claims(claims)
                 .expiration(expiration)
@@ -46,7 +47,7 @@ public class JwtService {
     public Map<String, Object> generateClaims(Usuario user) {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("name", user.getName());
-        extraClaims.put("role", user.getRole().name());
+        extraClaims.put("role", user.getRole().getName());
         extraClaims.put("authorities", user.getAuthorities());
 
         return extraClaims;

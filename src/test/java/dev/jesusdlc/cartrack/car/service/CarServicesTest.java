@@ -23,7 +23,7 @@ import static org.mockito.BDDMockito.given;
 
 
 @ExtendWith(MockitoExtension.class)
-public class CarServiceTest {
+public class CarServicesTest {
 
     @Mock
     private CarRepository carRepository;

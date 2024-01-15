@@ -23,6 +23,7 @@ public class BrandServiceImpl implements BrandService {
 
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
+    private final String RESOURCE = "brand";
     @Override
     public List<BrandResponseDto> findAll() {
         List<Brand> brands = brandRepository.findAll();
@@ -48,14 +49,14 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandResponseDto findById(long id) {
-        Brand brand = brandRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        Brand brand = brandRepository.findById(id).orElseThrow(() -> new NotFoundException(RESOURCE));
         BrandResponseDto brandResponse = brandMapper.toBrandResponseDto(brand);
         return brandResponse;
     }
 
     @Override
     public Brand findBrand(long id) {
-        Brand brand = brandRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        Brand brand = brandRepository.findById(id).orElseThrow(() -> new NotFoundException(RESOURCE));
         return brand;
     }
 
@@ -70,7 +71,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandResponseDto update(BrandRequestUpdateDto brandRequestUpdateDto) {
-        if(!brandRepository.existsById(brandRequestUpdateDto.getId()))throw new NotFoundException(brandRequestUpdateDto.getId());
+        if(!brandRepository.existsById(brandRequestUpdateDto.getId()))throw new NotFoundException(RESOURCE);
         if(brandRepository.existsByName(brandRequestUpdateDto.getName())) throw new ExistsException(brandRequestUpdateDto.getName());
 
         Brand brand = brandMapper.toBrandUpdate(brandRequestUpdateDto);
@@ -81,7 +82,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public boolean delete(long id) {
-        if(!brandRepository.existsById(id))throw new NotFoundException(id);
+        if(!brandRepository.existsById(id))throw new NotFoundException(RESOURCE);
         brandRepository.deleteById(id);
         return true;
     }

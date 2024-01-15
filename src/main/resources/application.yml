@@ -18,5 +18,5 @@ spring:
 
 security:
   jwt:
-    time: 720
-    key: bGFmaXJtYXBhZHJpbm9zZWd1cmlkYWRzcHJpbmcyMDIz
+    time: ${jwttime}
+    key: ${jwtkey}

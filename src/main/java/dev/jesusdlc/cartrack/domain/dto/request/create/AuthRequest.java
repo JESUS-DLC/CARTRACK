@@ -13,8 +13,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class AuthRequest implements Serializable {
-    @NotEmpty(message = "el usuario debe tener un email")
-    private String email;
-    @NotEmpty(message = "el usuario debe tener una contrasena")
+    @NotEmpty(message = "username is required")
+    private String username;
+    @NotEmpty(message = "password is required")
     private String password;
 }

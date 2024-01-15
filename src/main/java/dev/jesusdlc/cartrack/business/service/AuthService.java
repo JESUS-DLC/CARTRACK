@@ -9,4 +9,5 @@ public interface AuthService {
 
     UserResponseDto register(UserRequestDto userRequestDto);
     AuthResponse login(AuthRequest authRequest);
+    String getAuthUsername();
 }

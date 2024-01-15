@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 public class CarRequestUpdateDto extends CarRequestDto {
 
-    @NotNull(message = "el carro debe tener un id")
+    @NotNull(message = "id is required")
     private Long id;
 
 

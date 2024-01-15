@@ -14,10 +14,10 @@ import lombok.Setter;
 @Setter
 public class CarRequestDto {
 
-    @NotNull(message = "el carro debe tener una marca")
+    @NotNull(message = "brand is required")
     private Long brand;
-    @NotEmpty(message = "el carro debe tener un modelo")
+    @NotEmpty(message = "model is required")
     private String model;
-    @NotNull(message = "el carro debe tener un año")
+    @NotNull(message = "year required")
     private Integer year;
 }

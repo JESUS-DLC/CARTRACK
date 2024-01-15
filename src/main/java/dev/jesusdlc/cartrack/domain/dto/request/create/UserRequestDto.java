@@ -15,15 +15,18 @@ import lombok.Setter;
 @Setter
 public class UserRequestDto {
 
-    @NotEmpty(message = "el usuario debe tener un nombre")
+    @NotEmpty(message = "name is required")
     private String name;
-    @NotEmpty(message = "el usuario debe tener un email")
+    @NotEmpty(message = "email is required")
     private String email;
-    @NotEmpty(message = "el usuario debe tener una contrasena")
-    @Size(min = 8, message = "la contraseña debe tener al menos 8 caracteres")
+    @NotEmpty(message = "username is required")
+    @Size(min = 8, message = "username must be at least 8 characters")
+    private String username;
+    @NotEmpty(message = "password is required")
+    @Size(min = 8, message = "Password must be at least 8 characters ")
     private String password;
-    @NotEmpty(message = "el usuario debe tener la confirmacion de la contrasena")
-    @Size(min = 8, message = "la contraseña debe tener al menos 8 caracteres")
+    @NotEmpty(message = "password confirmation is required")
+    @Size(min = 8, message = "Password must be at least 8 characters ")
     private String repeatedPassword;
 
 }

@@ -1,6 +1,6 @@
 package dev.jesusdlc.cartrack.domain.entity;
 
-import dev.jesusdlc.cartrack.domain.util.Role;
+import dev.jesusdlc.cartrack.domain.util.RoleEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,25 +30,30 @@ public class Usuario implements UserDetails {
     private String name;
     @Column(nullable = false,unique = true)
     private String email;
+    @Column(nullable = false,unique = true)
+    private String username;
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
     private Boolean enabled;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(targetEntity = Role.class)
+    @JoinColumn(name = "role_id")
     private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (role == null) return null;
-        List<SimpleGrantedAuthority> authorities = role.getPermissions().stream()
+
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        //List<SimpleGrantedAuthority> authorities = role.getPermissions().stream()
                 //.map(permission -> permission.name())
                 //.map(permission -> new SimpleGrantedAuthority(permission))
-                .map(Enum::name)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+                //.map(Enum::name)
+                //.map(SimpleGrantedAuthority::new)
+                //.collect(Collectors.toList());
 
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.role.getName()));
         return authorities;
     }
 
@@ -57,7 +63,7 @@ public class Usuario implements UserDetails {
     }
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
     @Override
     public boolean isAccountNonExpired() {

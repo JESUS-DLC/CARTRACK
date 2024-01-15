@@ -2,6 +2,7 @@ package dev.jesusdlc.cartrack.business.service.impl;
 
 import dev.jesusdlc.cartrack.business.exception.NotFoundException;
 import dev.jesusdlc.cartrack.business.mapper.CarMapper;
+import dev.jesusdlc.cartrack.business.service.AuthService;
 import dev.jesusdlc.cartrack.business.service.CarService;
 import dev.jesusdlc.cartrack.domain.dto.request.create.CarRequestDto;
 import dev.jesusdlc.cartrack.domain.dto.request.update.CarRequestUpdateDto;
@@ -9,8 +10,10 @@ import dev.jesusdlc.cartrack.domain.dto.response.CarResponseDto;
 import dev.jesusdlc.cartrack.domain.dto.response.PageableResponse;
 import dev.jesusdlc.cartrack.domain.entity.Brand;
 import dev.jesusdlc.cartrack.domain.entity.Car;
+import dev.jesusdlc.cartrack.domain.entity.Usuario;
 import dev.jesusdlc.cartrack.domain.specification.SearchCarSpecification;
 import dev.jesusdlc.cartrack.persistence.repository.CarRepository;
+import dev.jesusdlc.cartrack.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,17 +27,24 @@ public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
     private final CarMapper carMapper;
+    private final String RESOURCE = "car";
 
     @Override
-    public CarResponseDto findById(long id) {
-        Car car = carRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+    public CarResponseDto findById(long id,String username) {
+        Car car = carRepository.findByIdAndUserUsername(id,username).orElseThrow(()->new NotFoundException(RESOURCE));
         CarResponseDto carResponseDto = carMapper.toCarResponseDto(car);
         return carResponseDto;
     }
 
     @Override
-    public boolean existById(long id) {
-        return carRepository.existsById(id);
+    public Car findCar(long id,String username){
+        Car car = carRepository.findByIdAndUserUsername(id,username).orElseThrow(()->new NotFoundException(RESOURCE));
+        return car;
+    }
+
+    @Override
+    public boolean existByIdAndUsername(long id,String username) {
+        return carRepository.existsByIdAndUserUsername(id,username);
     }
 
     @Override
@@ -45,8 +55,8 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public PageableResponse<CarResponseDto> findAllPageable(Pageable pageable, Long brandId, Long year) {
-        SearchCarSpecification specification = new SearchCarSpecification(brandId,year);
+    public PageableResponse<CarResponseDto> findAllPageable(Pageable pageable, Long brandId, Long year,String username) {
+        SearchCarSpecification specification = new SearchCarSpecification(brandId,year,username);
 
         Page<Car> page = carRepository.findAll(specification,pageable);
 
@@ -62,26 +72,28 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarResponseDto save(CarRequestDto carRequestDto, Brand brand) {
+    public CarResponseDto save(CarRequestDto carRequestDto, Brand brand,Usuario user) {
         Car car = carMapper.toCar(carRequestDto);
         car.setBrand(brand);
+        car.setUser(user);
         Car carSaved = carRepository.save(car);
         CarResponseDto carResponse = carMapper.toCarResponseDto(carSaved);
         return carResponse;
     }
 
     @Override
-    public CarResponseDto update(CarRequestUpdateDto carRequestDto,Brand brand) {
+    public CarResponseDto update(CarRequestUpdateDto carRequestDto,Brand brand,Usuario user) {
         Car car = carMapper.toCarByUpdate(carRequestDto);
         car.setBrand(brand);
+        car.setUser(user);
         Car carSaved = carRepository.save(car);
         CarResponseDto carResponse = carMapper.toCarResponseDto(carSaved);
         return carResponse;
     }
 
     @Override
-    public boolean delete(long carId) {
-        if(!carRepository.existsById(carId)) throw new NotFoundException(carId);
+    public boolean delete(long carId,String username) {
+        if(!carRepository.existsByIdAndUserUsername(carId,username)) throw new NotFoundException(RESOURCE);
         carRepository.deleteById(carId);
         return true;
     }

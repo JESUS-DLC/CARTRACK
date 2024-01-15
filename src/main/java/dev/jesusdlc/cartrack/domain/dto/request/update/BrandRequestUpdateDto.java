@@ -12,7 +12,7 @@ import lombok.*;
 @Builder
 public class BrandRequestUpdateDto extends BrandRequestDto {
 
-    @NotNull(message = "la marca debe tener un id")
+    @NotNull(message = "id is required")
     private Long id;
 
 }

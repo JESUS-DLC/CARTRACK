@@ -1,6 +1,6 @@
 package dev.jesusdlc.cartrack.domain.util;
 
-public enum Permission {
+public enum PermissionEnum {
     READ_ALL_CARS,
     READ_ONE_CAR,
     CREATE_ONE_CAR,

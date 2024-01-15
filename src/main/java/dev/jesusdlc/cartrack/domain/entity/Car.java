@@ -22,5 +22,8 @@ public class Car {
     private String model;
     @Column(nullable = false)
     private Integer year;
+    @ManyToOne(targetEntity = Usuario.class)
+    @JoinColumn(name = "user_id")
+    private Usuario user;
 
 }

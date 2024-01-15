@@ -15,7 +15,7 @@ public interface UserMapper {
     @Mapping(target = "id",source = "id")
     @Mapping(target = "name",source = "name")
     @Mapping(target = "email",source = "email")
-    @Mapping(target = "role",source = "role")
+    @Mapping(target = "role",source = "role.name")
     UserResponseDto toUserResponseDto(Usuario usuario);
 
 
