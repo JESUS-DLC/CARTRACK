@@ -22,7 +22,7 @@ API CARTRACK, una api basada en Spring Boot que proporciona operaciones CRUD par
 
 para correr la aplicacion necesitas
 
-- jdk 11
+- jdk 17
 - gradle
 - PostgreSQL
 
