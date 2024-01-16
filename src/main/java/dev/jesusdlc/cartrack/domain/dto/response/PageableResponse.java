@@ -13,7 +13,7 @@ import java.util.List;
 public class PageableResponse<T> {
     private List<T> content;
     private Integer numberPage;
-    private Long totalBrands;
+    private Long totalElements;
     private Integer sizePage;
     private Integer totalPages;
 }

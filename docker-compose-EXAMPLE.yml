@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  car_java:
+    container_name: car_java_app
+    build: .
+    ports:
+      - "port:port"
+    links:
+      - car_postgre
+    environment:
+      - port= your port
+      - urldb=jdbc:postgresql://container_name_db:port/database_name
+      - userdb=user
+      - pwdb=password
+    depends_on:
+      - car_postgre
+  car_postgre:
+    container_name: container_name_db
+    image: postgres:version
+    ports:
+      - "port:port"
+    environment:
+      - POSTGRES_PASSWORD=password_db
+      - POSTGRES_DB=name_db

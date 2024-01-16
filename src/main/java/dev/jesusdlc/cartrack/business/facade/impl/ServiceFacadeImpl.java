@@ -10,6 +10,7 @@ import dev.jesusdlc.cartrack.domain.dto.request.create.ServiceRequestDto;
 import dev.jesusdlc.cartrack.domain.dto.request.update.ServiceRequestUpdateDto;
 import dev.jesusdlc.cartrack.domain.dto.response.PageableResponse;
 import dev.jesusdlc.cartrack.domain.dto.response.ServiceResponseDto;
+import dev.jesusdlc.cartrack.domain.dto.response.TotalCostServicesDto;
 import dev.jesusdlc.cartrack.domain.entity.Car;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +38,18 @@ public class ServiceFacadeImpl implements ServiceFacade {
     public List<ServiceResponseDto> findAll(long carId) {
         String username = authService.getAuthUsername();
         return service.findAll(carId,username);
+    }
+
+    @Override
+    public TotalCostServicesDto getTotalCostServices() {
+        String username = authService.getAuthUsername();
+        return service.getTotalCostServices(username);
+    }
+
+    @Override
+    public PageableResponse<ServiceResponseDto> findAllServices(Pageable pageable, BigInteger minCost, BigInteger maxCost, LocalDate date, Boolean status) {
+        String username = authService.getAuthUsername();
+        return service.findAllServices(pageable,minCost,maxCost,date,status,username);
     }
 
     @Override

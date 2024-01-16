@@ -39,7 +39,7 @@ public class BrandServiceImpl implements BrandService {
 
         PageableResponse<BrandResponseDto> brandPageableResponse = new PageableResponse<>();
         brandPageableResponse.setContent(brandResponse);
-        brandPageableResponse.setTotalBrands(brandsPageable.getTotalElements());
+        brandPageableResponse.setTotalElements(brandsPageable.getTotalElements());
         brandPageableResponse.setNumberPage(brandsPageable.getNumber());
         brandPageableResponse.setSizePage(brandsPageable.getSize());
         brandPageableResponse.setTotalPages(brandsPageable.getTotalPages());

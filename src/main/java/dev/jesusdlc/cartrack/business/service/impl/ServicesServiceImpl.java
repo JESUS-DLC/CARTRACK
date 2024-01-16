@@ -7,6 +7,7 @@ import dev.jesusdlc.cartrack.domain.dto.request.create.ServiceRequestDto;
 import dev.jesusdlc.cartrack.domain.dto.request.update.ServiceRequestUpdateDto;
 import dev.jesusdlc.cartrack.domain.dto.response.PageableResponse;
 import dev.jesusdlc.cartrack.domain.dto.response.ServiceResponseDto;
+import dev.jesusdlc.cartrack.domain.dto.response.TotalCostServicesDto;
 import dev.jesusdlc.cartrack.domain.entity.Car;
 import dev.jesusdlc.cartrack.domain.entity.Services;
 import dev.jesusdlc.cartrack.domain.specification.SearchServicesSpecification;
@@ -47,6 +48,28 @@ public class ServicesServiceImpl implements ServicesService {
     }
 
     @Override
+    public TotalCostServicesDto getTotalCostServices(String username) {
+        TotalCostServicesDto total = new TotalCostServicesDto(serviceRepository.getTotalCostServices(username));
+        return total;
+    }
+
+
+    @Override
+    public PageableResponse<ServiceResponseDto> findAllServices(Pageable pageable, BigInteger minCost, BigInteger maxCost, LocalDate date, Boolean status, String username) {
+        SearchServicesSpecification specification = new SearchServicesSpecification(minCost,maxCost,date,status,username);
+        Page<Services> page = serviceRepository.findAll(specification,pageable);
+
+        List<ServiceResponseDto> services = serviceMapper.toServiceResponseDto(page.getContent());
+        PageableResponse<ServiceResponseDto> servicesPageable = new PageableResponse<>();
+        servicesPageable.setContent(services);
+        servicesPageable.setNumberPage(page.getNumber());
+        servicesPageable.setSizePage(page.getSize());
+        servicesPageable.setTotalPages(page.getTotalPages());
+        servicesPageable.setTotalElements(page.getTotalElements());
+        return servicesPageable;
+    }
+
+    @Override
     public PageableResponse<ServiceResponseDto> findAllPageable(Pageable pageable, long carId, BigInteger minCost, BigInteger maxCost, LocalDate date, Boolean status, String username) {
         SearchServicesSpecification specification = new SearchServicesSpecification(carId,minCost,maxCost,date,status,username);
         Page<Services> page = serviceRepository.findAll(specification,pageable);
@@ -57,7 +80,7 @@ public class ServicesServiceImpl implements ServicesService {
         servicesPageable.setNumberPage(page.getNumber());
         servicesPageable.setSizePage(page.getSize());
         servicesPageable.setTotalPages(page.getTotalPages());
-        servicesPageable.setTotalBrands(page.getTotalElements());
+        servicesPageable.setTotalElements(page.getTotalElements());
         return servicesPageable;
     }
 

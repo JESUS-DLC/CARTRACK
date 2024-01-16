@@ -21,6 +21,14 @@ public class SearchServicesSpecification implements Specification<Services> {
     private Boolean status;
     private String username;
 
+    public SearchServicesSpecification(BigInteger minCost, BigInteger maxCost, LocalDate date, Boolean status, String username) {
+        this.minCost = minCost;
+        this.maxCost = maxCost;
+        this.date = date;
+        this.status = status;
+        this.username = username;
+    }
+
     @Override
     public Predicate toPredicate(Root<Services> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();

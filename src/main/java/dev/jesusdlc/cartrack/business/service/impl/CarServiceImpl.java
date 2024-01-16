@@ -2,7 +2,6 @@ package dev.jesusdlc.cartrack.business.service.impl;
 
 import dev.jesusdlc.cartrack.business.exception.NotFoundException;
 import dev.jesusdlc.cartrack.business.mapper.CarMapper;
-import dev.jesusdlc.cartrack.business.service.AuthService;
 import dev.jesusdlc.cartrack.business.service.CarService;
 import dev.jesusdlc.cartrack.domain.dto.request.create.CarRequestDto;
 import dev.jesusdlc.cartrack.domain.dto.request.update.CarRequestUpdateDto;
@@ -13,7 +12,6 @@ import dev.jesusdlc.cartrack.domain.entity.Car;
 import dev.jesusdlc.cartrack.domain.entity.Usuario;
 import dev.jesusdlc.cartrack.domain.specification.SearchCarSpecification;
 import dev.jesusdlc.cartrack.persistence.repository.CarRepository;
-import dev.jesusdlc.cartrack.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -66,7 +64,7 @@ public class CarServiceImpl implements CarService {
         carPageable.setNumberPage(page.getNumber());
         carPageable.setSizePage(page.getSize());
         carPageable.setTotalPages(page.getTotalPages());
-        carPageable.setTotalBrands(page.getTotalElements());
+        carPageable.setTotalElements(page.getTotalElements());
 
         return carPageable;
     }

@@ -7,6 +7,7 @@ import dev.jesusdlc.cartrack.domain.dto.request.create.ServiceRequestDto;
 import dev.jesusdlc.cartrack.domain.dto.request.update.ServiceRequestUpdateDto;
 import dev.jesusdlc.cartrack.domain.dto.response.PageableResponse;
 import dev.jesusdlc.cartrack.domain.dto.response.ServiceResponseDto;
+import dev.jesusdlc.cartrack.domain.dto.response.TotalCostServicesDto;
 import dev.jesusdlc.cartrack.domain.entity.Services;
 import dev.jesusdlc.cartrack.persistence.repository.ServiceRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +46,35 @@ public class ServiceController {
     ){
         ServiceResponseDto services = serviceFacade.findById(carId,id);
         return ResponseEntity.status(HttpStatus.OK).body(services);
+    }
+
+    @Operation(
+            summary = "Get total cost of services",
+            description = "Get endpoint for total cost of services from user"
+    )
+    @GetMapping("/cars/services/total")
+    ResponseEntity<TotalCostServicesDto> getTotalCostServices(){
+        System.out.println("hola");
+        return ResponseEntity.status(HttpStatus.OK).body(serviceFacade.getTotalCostServices());
+    }
+
+    @Operation(
+            summary = "Get all services from a user",
+            description = "Get endpoint for all services from a user with pagination and query params"
+    )
+    @GetMapping("/cars/services/all")
+    ResponseEntity<PageableResponse<ServiceResponseDto>> findAllServices(
+            @ParameterObject @PageableDefault(page = 0,size = 10)Pageable pageable,
+            @Parameter(description = "maximum cost to filter services", example = "500")
+            @RequestParam(required = false)BigInteger minCost,
+            @Parameter(description = "minimum cost to filter services", example = "300")
+            @RequestParam(required = false)BigInteger maxCost,
+            @Parameter(description = "date to filter services", example = "2023-01-23")
+            @RequestParam(required = false) LocalDate date,
+            @Parameter(description = "status to filter services", example = "true")
+            @RequestParam(required = false)Boolean status
+    ){
+        return ResponseEntity.status(HttpStatus.OK).body(serviceFacade.findAllServices(pageable,minCost,maxCost,date,status));
     }
 
     @Operation(

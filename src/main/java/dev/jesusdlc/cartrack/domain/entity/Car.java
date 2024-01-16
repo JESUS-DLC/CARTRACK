@@ -3,6 +3,8 @@ package dev.jesusdlc.cartrack.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -10,7 +12,7 @@ import lombok.*;
 @Setter
 @Builder
 @Table(name = "cars")
-public class Car {
+public class Car implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
